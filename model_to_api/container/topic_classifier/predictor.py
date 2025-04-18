@@ -3,15 +3,13 @@ import os
 import flask
 import pickle
 import json
-import time
 import random
 import pandas as pd
 import numpy as np
-import pathlib
 import torch
 import unicodedata
 import tensorflow as tf
-from transformers import pipeline, AutoTokenizer, AutoModelForSequenceClassification
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
 from sentence_transformers import SentenceTransformer
 
 # Define the path
@@ -51,10 +49,8 @@ print("Loaded non-gold citation L1")
 
 # Load the tokenizer and embedding model
 emb_model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
-language_model_name = \
-    "OpenAlex/bert-base-multilingual-cased-finetuned-openalex-topic-classification-title-abstract"
+language_model_name = os.path.join(model_path, 'openalex-bert-model')
 tokenizer = AutoTokenizer.from_pretrained(language_model_name, truncate=True)
-
 
 def name_to_keep_ind(groups):
     """

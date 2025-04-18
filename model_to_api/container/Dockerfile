@@ -4,8 +4,6 @@
 
 FROM ubuntu:20.04
 
-MAINTAINER jpbarrett13
-
 # 1. Define the packages required in our environment. 
 RUN apt-get -y update && apt-get install -y --no-install-recommends \
          wget \
@@ -21,7 +19,7 @@ RUN apt-get -y update && apt-get install -y --no-install-recommends \
 # These optimizations save a fair amount of space in the image, which reduces start up time.
 RUN wget https://bootstrap.pypa.io/get-pip.py && python3 get-pip.py && \
     pip install --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu && \
-    pip install --no-cache-dir tensorflow==2.13.0 transformers==4.35.2 sentence-transformers==2.2.2 pandas numpy flask gevent gunicorn && \
+    pip install --no-cache-dir tensorflow==2.13.0 transformers==4.35.2 sentence-transformers==2.2.2 pandas numpy flask gevent gunicorn huggingface_hub==0.19.4 && \
     rm -rf /root/.cache
 
 # 3. Set some environment variables. PYTHONUNBUFFERED keeps Python from buffering our standard
@@ -34,6 +32,8 @@ ENV PATH="/opt/program:${PATH}"
 ENV LOG4J_FORMAT_MSG_NO_LOOKUPS=true
 
 # 4. Define the folder where our model files are located
+
+COPY model /opt/ml/model
 
 # 5. Define the folder where our inference code is located
 COPY topic_classifier /opt/program

@@ -1,13 +1,19 @@
-# openalex-topic-classification
+# OpenAlex Topic Classification (Local Fork)
 
-This repository contains all of the code for getting the [OpenAlex](https://openalex.org) topic classification model up and running. Go into the model iteration directory (v1) to find a more detailed explanation of how to use this repository. To learn more about topics in OpenAlex, check out [the docs](https://docs.openalex.org/about-the-data/topic). 
+This repository is a fork of the [openalex-topic-classification](https://github.com/OurResearch/openalex-topic-classification) project by **OurResearch**, specifically based on the `predictor.py` file located at `v1/003_Deployment/model_to_api/container/topic_classifier/predictor.py`. It has been adapted to run locally without requiring external model downloads from Hugging Face, ensuring all necessary model files are included for offline operation.
 
-### Model Development
-You can find an explanation of the modeling and deployment process at the following link (work-in-progress):
-[OpenAlex: End-to-End Process for Topic Classification](https://docs.google.com/document/d/1bDopkhuGieQ4F8gGNj7sEc8WSE8mvLZS/edit?usp=sharing&ouid=103029294098811636573&rtpof=true&sd=true)
+## Overview
 
-### Model Iterations
-* v1 (current)
+This project provides a Dockerized Flask-based inference server for topic classification of academic papers using the OpenAlex dataset. It leverages two pre-trained models:
 
-### Topics
-Works can be tagged with one or more of 4,516 topics, [listed here](https://docs.google.com/spreadsheets/d/1v-MAq64x4YjhO7RWcB-yrKV5D_2vOOsxl4u6GBKEXY8/edit?usp=sharing). Each topic is also assigned a domain, field, and subfield that can be used to group similar topics together at a higher level. There is additional data (keywords, summary, wikipedia url) that can be used to help a user see how the clusters are distinguished and what the top words are in each topic. 
+- **sentence-transformers/all-MiniLM-L6-v2** for journal embeddings.
+- **OpenAlex/bert-base-multilingual-cased-finetuned-openalex-topic-classification-title-abstract** for title and abstract processing.
+
+The fork prioritizes **local-first execution**, with all model files pre-downloaded and stored in the `model/` directory, eliminating runtime dependencies on external repositories.
+
+## Features
+
+- **Offline Model Execution**: Includes all Hugging Face models and supporting files (e.g., `.pkl`, `citation_part_only.keras`) for local inference.
+- **Dockerized Setup**: Uses `Dockerfile` and `docker-compose.yml` for consistent deployment.
+- **Flask Inference Server**: Serves predictions via a REST API, powered by Gunicorn and Nginx.
+- **Complete Model Files**: Contains all required files for topic classification without internet access.
